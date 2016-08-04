@@ -58,6 +58,10 @@ class DataMapLegend extends React.Component {
     if (this.state.legendOpen) legendClassNames.push('-open');
     if (this.layers.length) {
       content = (<SortableList
+        axis="y"
+        lockAxis="y"
+        lockToContainerEdges
+        lockOffset="50%"
         useDragHandle
         items={this.layers}
         onSortEnd={(oldI, newI) => this.onSortEnd(oldI, newI)}
