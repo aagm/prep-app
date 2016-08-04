@@ -31,7 +31,6 @@ export function getDatasetLayer(dataset) {
             error: err.message
           }
         });
-        dispatch(updateURL());
       });
   };
 }
