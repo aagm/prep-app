@@ -4,7 +4,7 @@ import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'r
 
 const DragHandle = SortableHandle(() => <span className="handler">🔝</span>);
 
-const SortableItem = SortableElement(({layer, index}) => {
+const SortableItem = SortableElement(({layer, index, onInfoClick}) => {
   return (
     <div className="legend-layer" key={`map-layer-${index}`}>
       <DragHandle />
@@ -16,18 +16,18 @@ const SortableItem = SortableElement(({layer, index}) => {
         </Link>
         <span
           className="icon -info"
-          onClick={() => this.props.onInfoClick(layer.attributes['dataset-id'])}
+          onClick={() => onInfoClick(layer.attributes['dataset-id'])}
         > i </span>
       </div>
     </div>
   );
 });
 
-const SortableList = SortableContainer(({items}) => {
+const SortableList = SortableContainer(({items, onInfoClick}) => {
   return (
     <div className="content">
       {items.map((layer, index) =>
-        <SortableItem key={`item-${index}`} index={index} layer={layer} />
+        <SortableItem key={`item-${index}`} index={index} layer={layer} onInfoClick={onInfoClick} />
       )}
     </div>
   );
@@ -41,7 +41,7 @@ class DataMapLegend extends React.Component {
     };
   }
 
-  onSortEnd({ oldIndex, newIndex, layers }) {
+  onSortEnd({ oldIndex, newIndex }) {
     this.layers = arrayMove(this.layers, oldIndex, newIndex);
   }
 
@@ -64,6 +64,7 @@ class DataMapLegend extends React.Component {
         lockOffset="50%"
         useDragHandle
         items={this.layers}
+        onInfoClick={this.props.onInfoClick}
         onSortEnd={(oldI, newI) => this.onSortEnd(oldI, newI)}
       />);
     } else {
